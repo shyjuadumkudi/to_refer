@@ -1,0 +1,73 @@
+1. Introduction
+Objective: Provide an overview of the session's goals, which include understanding key development practices and processes. This will help set expectations for what attendees will learn.
+Target Audience: Clarify that the session is aimed at non-developers who are interested in learning how to automate tasks by developing scripts and adhering to best practices.
+2. Python-Based Development
+Overview: Python is a popular language for automation due to its readability and extensive library support. It’s widely used for writing scripts that perform various tasks.
+Basic Syntax: Introduce fundamental Python concepts such as:
+Variables: Storing values (x = 5)
+Functions: Reusable blocks of code (def my_function():)
+Loops: Iterating over data (for item in list:)
+Libraries & Frameworks: Highlight useful libraries for automation, like:
+Requests: For HTTP requests
+Pandas: For data manipulation
+BeautifulSoup: For web scraping
+3. Coding Guidelines
+PEP 8: The official style guide for Python code, which promotes code readability and consistency.
+Code Readability: Emphasize the importance of writing clear and understandable code to make it easier for others (and yourself) to maintain and debug.
+Documentation: Use docstrings to describe the purpose of functions, classes, and modules. Good documentation helps others understand your code.
+4. GitHub
+Overview: GitHub is a platform for version control and collaboration. It hosts repositories and tracks changes to code.
+Repositories: Explain how to create and manage repositories, which store your project’s code and version history.
+Branching: Describe branches as separate lines of development. Branching allows multiple features or fixes to be developed in parallel without interfering with the main codebase.
+5. Commit Practices
+Commit Messages: Good commit messages should be descriptive and explain the changes made. For example, “Fixed bug in user authentication module” is better than “Fixed bug.”
+Frequency: Regular commits (after each logical change) keep your history clean and make it easier to track changes.
+Atomic Commits: Each commit should represent a single change or fix, making it easier to understand the purpose of each commit and to revert if necessary.
+6. Code Reviews
+Purpose: Code reviews help ensure code quality, catch bugs early, and facilitate knowledge sharing among team members.
+Best Practices: Provide constructive feedback, focus on the code (not the coder), and ensure that reviews are thorough but respectful.
+Tools: Use GitHub’s pull request feature to review code changes. Comment directly on lines of code and discuss improvements.
+7. Pull Requests
+Overview: A pull request (PR) is a request to merge code changes from one branch into another. It’s a key part of collaborative development.
+Creating a PR: Describe the process of creating a PR, including selecting the branch with your changes, providing a description, and submitting the request.
+Review Process: Explain how to review a PR by checking the code changes, running tests, and providing feedback. Once reviewed, the PR can be merged into the target branch.
+8. Deployment Process
+Overview: Deployment involves moving code from development to production. It often includes several steps like building, testing, and releasing.
+Tools Used:
+GitHub: Manages source code and integrates with other tools.
+Jenkins: Automates build and test processes. It can trigger builds based on changes in GitHub.
+UrbanCode Deploy (Udeploy): Manages the deployment of code to different environments (staging, production).
+CI/CD Pipeline: A continuous integration/continuous deployment (CI/CD) pipeline automates the process of integrating code changes, running tests, and deploying to production.
+9. Secure Coding
+Principles: Secure coding practices help prevent vulnerabilities. This includes:
+Input Validation: Ensure that all user inputs are validated and sanitized.
+Authentication: Implement secure methods for user authentication.
+Error Handling: Avoid exposing sensitive information in error messages.
+Common Vulnerabilities: Awareness of issues like SQL injection (malicious SQL in input), Cross-Site Scripting (XSS), and how to mitigate them.
+10. Tools Integrated in CI/CD Pipeline
+Overview: Tools in the CI/CD pipeline help automate various aspects of software development and deployment.
+Examples:
+Testing Tools: Tools like pytest or JUnit for automated testing.
+Monitoring Tools: Tools that track application performance and health (e.g., Prometheus).
+Integration: Describe how these tools work together in the pipeline to ensure smooth development and deployment processes.
+11. Unit Testing
+Purpose: Unit testing involves testing individual components (units) of the code to ensure they work as expected.
+Writing Tests: Focus on creating tests that cover different scenarios and edge cases.
+Testing Frameworks: Introduce frameworks like:
+pytest: A powerful testing framework with many features.
+unittest: Python’s built-in module for unit testing.
+12. SDLC Process
+Phases: The Software Development Life Cycle (SDLC) includes stages like:
+Planning: Defining requirements and scope.
+Design: Creating architectural and design plans.
+Development: Writing and building the code.
+Testing: Verifying that the code works as expected.
+Deployment: Releasing the code to production.
+Maintenance: Ongoing support and updates.
+Models: Overview of different models like Waterfall (sequential phases) and Agile (iterative and incremental).
+Best Practices: Follow established practices in each phase to ensure quality and efficiency.
+13. Q&A
+Open Floor: Allow time for attendees to ask questions and clarify any doubts they have about the topics covered.
+14. Conclusion
+Summary: Recap the key points discussed during the session.
+Resources: Provide additional materials or links for further learning (e.g., documentation, tutorials).
