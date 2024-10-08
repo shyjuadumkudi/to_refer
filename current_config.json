@@ -1,0 +1,31 @@
+{
+    "network": {
+        "ip": "192.168.1.2",  // IP changed
+        "subnet": "255.255.255.0",
+        "gateway": "192.168.1.254",
+        "dns": ["8.8.8.8", "8.8.4.4"]
+    },
+    "services": {
+        "ssh": {
+            "enabled": true,
+            "port": 22
+        },
+        "http": {
+            "enabled": false,  // HTTP service disabled
+            "port": 8080       // HTTP port changed
+        }
+    },
+    "security": {
+        "firewall": {
+            "enabled": true,
+            "rules": [
+                {"action": "allow", "port": 22},
+                {"action": "deny", "port": 443}  // Different firewall rule for HTTPS
+            ]
+        }
+    },
+    "system": {
+        "hostname": "server2",  // Hostname changed
+        "timezone": "UTC"
+    }
+}
