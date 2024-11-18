@@ -1,0 +1,29 @@
+API Endpoints
+To enable admin management of EA metadata, the following RESTful API endpoints will be implemented:
+
+1. Get Metadata
+Range-Based: GET /api/metadata/range
+List-Based: GET /api/metadata/list
+Description: Retrieve existing range or list-based metadata.
+Access: Admin only.
+2. Add Metadata
+Range-Based: POST /api/metadata/range
+List-Based: POST /api/metadata/list
+Description: Add new EA metadata.
+Request Body:
+Range-based: { "name": "<attribute_name>", "minimum": <min_value>, "maximum": <max_value> }
+List-based: { "name": "<attribute_name>", "value": "<allowed_value>" }
+Access: Admin only.
+3. Update Metadata
+Range-Based: PUT /api/metadata/range/<name>
+List-Based: PUT /api/metadata/list/<name>/<value>
+Description: Update existing metadata.
+Access: Admin only.
+4. Delete Metadata
+Range-Based: DELETE /api/metadata/range/<name>
+List-Based: DELETE /api/metadata/list/<name>/<value>
+Description: Delete metadata by attribute name or specific value.
+Access: Admin only.
+Validation Logic
+Range-Based Validation: For attributes requiring min-max range validation, the Meta_data_range table will be referenced to ensure that any incoming data falls within the specified range.
+List-Based Validation: For attributes requiring specific, allowable values, the Meta_data_list table will be checked to confirm that the data matches one of the predefined values.
