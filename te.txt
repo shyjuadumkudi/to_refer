@@ -1,0 +1,46 @@
+Implementation Steps
+Step 1: Create a Web Transactions Test in ThousandEyes
+Login to ThousandEyes
+Access the ThousandEyes console with your credentials.
+
+Navigate to Tests
+
+Go to the Tests section in the sidebar.
+Click on + Add Test.
+Select Test Type
+
+Choose Web Transactions as the test type.
+Configure Test Details
+
+Test Name: Health Check Page Monitoring
+Target URL: https://ht.dev.cname.net/ht?format=json
+Agent: Select the appropriate ThousandEyes agent(s).
+Interval: Set the frequency of the test (e.g., every 5 minutes).
+Define Test Steps
+
+Step 1: Open the URL and check for HTTP status code 200.
+Step 2: Parse the JSON response and validate the status of each component.
+Expected value: "working"
+Handle exceptions for error strings.
+Save the Test
+Review and save the test configuration.
+
+Step 2: Configure Alerts
+Set Up Alert Rules
+
+Go to the Alerts section in ThousandEyes.
+Create a new alert rule with the following criteria:
+Condition: Trigger an alert if any component status is not "working".
+Threshold: Single failure triggers an alert.
+Notification Settings
+
+Add the email addresses or distribution list of the group to notify.
+Ensure the alert email includes details about the failing component(s).
+Step 3: Test the Monitoring Setup
+Simulate an Error
+
+Manually cause an issue in one of the components to verify the monitoring tool detects it.
+Example: Temporarily disable the cache backend and check the alert.
+Verify Alert Delivery
+
+Confirm that the alert email is sent to the specified group with accurate details.
