@@ -6,16 +6,15 @@ runScript();
 async function runScript() {
     const settings = test.getSettings();
 
-    // Load the target page
+    // Load the target URL
     markers.start('LoadPage');
     await driver.get(settings.url);
     await driver.takeScreenshot();
     markers.stop('LoadPage');
 
-    // Wait for the page to load and get the response body
+    // Fetch the raw JSON response directly
     markers.start('FetchJSON');
-    const responseElement = await driver.findElement(By.tagName('body')); // Assuming response is in the body tag
-    const jsonResponse = await responseElement.getText();
+    const jsonResponse = await driver.executeScript('return document.body.innerText');
     markers.stop('FetchJSON');
     await driver.takeScreenshot();
 
