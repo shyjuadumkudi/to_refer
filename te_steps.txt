@@ -1,0 +1,33 @@
+Log in to ThousandEyes.
+Navigate to Tests > Add New Test > Web > Web Transaction.
+Configure basic settings:
+Test Name: Parse JSON Response Test
+Target URL: https://testapp.net/ht/?format=json
+Interval: Set the desired monitoring frequency (e.g., every 5 minutes).
+
+
+
+3. Configure Alerts
+Go to the Alert Rules section in ThousandEyes.
+Create a new alert rule:
+Rule Name: Web Transaction JSON Status Check.
+Condition: Set the alert to trigger if the test fails.
+Notification Email: Specify email recipients to receive alerts.
+
+4. Save and Run the Test
+Save the test configuration.
+Deploy the test and monitor the results.
+
+
+Expected Behavior
+If all components return "working", the test passes.
+If any component deviates (e.g., "unavailable" or missing), the test fails, logs the failed components, and triggers the configured alert rule.
+
+
+Workflow:
+Load the Page: Access https://testapp.net/ht/?format=json.
+Extract JSON: Directly capture the JSON text served by the endpoint.
+Validate Components: Check the status of database, cyberark, infoblox, and Redis.
+Report Failures: Log failed components and fail the test if any component is not working.
+Take Screenshots: Captures screenshots after key steps for debugging.
+Deploy this in your ThousandEyes Web Transaction Test with the target URL
