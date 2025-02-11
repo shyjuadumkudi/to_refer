@@ -1,22 +1,40 @@
-from django.db import models
+import requests
+from django.conf import settings
+from myapp.models import MetaDataDefinition, MetaDataValidValue
 
-class MetaDataDefinition(models.Model):
-    meta_data_definition_id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=255)
-    type = models.CharField(max_length=255)
-    allowed_object_type = models.TextField()
-    comment = models.TextField(blank=True, null=True)
-    gui_default_value = models.TextField(blank=True, null=True)
-    value_syntax = models.CharField(max_length=255, blank=True, null=True)
-    flags = models.CharField(max_length=255, blank=True, null=True)
+def fetch_ea_data_from_infoblox():
+    url = f"{settings.INFOBLOX_BASE_URL}/wapi/v2.11/extattr"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Token {settings.INFOBLOX_API_TOKEN}"
+    }
+    
+    response = requests.get(url, headers=headers, verify=False)
+    
+    if response.status_code == 200:
+        ea_data = response.json()
+        
+        for ea_name, attributes in ea_data.items():
+            meta_data, created = MetaDataDefinition.objects.update_or_create(
+                name=ea_name,
+                defaults={
+                    "type": attributes.get("type", ""),
+                    "allowed_object_type": attributes.get("allowed_object_types", ""),
+                    "comment": attributes.get("comment", ""),
+                    "gui_default_value": attributes.get("gui_default", ""),
+                    "value_syntax": attributes.get("syntax", ""),
+                    "flags": attributes.get("flags", ""),
+                }
+            )
+            
+            if "values" in attributes and isinstance(attributes["values"], list):
+                for value in attributes["values"]:
+                    MetaDataValidValue.objects.update_or_create(
+                        meta_data_definition=meta_data,
+                        valid_value=value
+                    )
+    else:
+        print(f"Failed to fetch EA data: {response.status_code} - {response.text}")
 
-    def __str__(self):
-        return self.name
-
-class MetaDataValidValue(models.Model):
-    meta_data_valid_value_id = models.BigAutoField(primary_key=True)
-    meta_data_definition = models.ForeignKey(MetaDataDefinition, on_delete=models.CASCADE, related_name='valid_values')
-    valid_value = models.TextField()
-
-    def __str__(self):
-        return f"{self.meta_data_definition.name}: {self.valid_value}"
+if __name__ == "__main__":
+    fetch_ea_data_from_infoblox()
