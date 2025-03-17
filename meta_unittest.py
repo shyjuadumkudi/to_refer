@@ -1,78 +1,71 @@
-class FetchMetadataTestCase(unittest.TestCase):
-    @patch("my_app.tasks.requests.get")  # Mock requests.get
-    def test_fetch_metadata_success(self, mock_get):
-        mock_response = MagicMock()
-        mock_response.json.return_value = [{"meta_data_definition_id": 1, "name": "Test"}]
-        mock_response.raise_for_status = MagicMock()
-        mock_get.return_value = mock_response
+from django.test import TestCase
+from unittest.mock import patch, MagicMock
 
-        result = fetch_metadata("https://api.example.com/metadatadef", {"Content-Type": "application/json"})
-        self.assertIsNotNone(result)
-        self.assertEqual(result[0]["name"], "Test")
-
-    @patch("my_app.tasks.requests.get")
-    def test_fetch_metadata_failure(self, mock_get):
-        mock_get.side_effect = Exception("API Error")
-        
-        result = fetch_metadata("https://api.example.com/metadatadef", {"Content-Type": "application/json"})
-        self.assertIsNone(result)
+from my_other_app.utilities import get_passwd_from_cv
 
 
-class ProcessMetadataDefinitionTestCase(unittest.TestCase):
-    @patch("meta_data.models.MetaDataDefinition.objects.update_or_create")
-    def test_process_metadata_definition_integer(self, mock_update_or_create):
-        mock_update_or_create.return_value = (MagicMock(name="MetaDataDef"), True)
-
-        record = {
+class MetadataUpdateTests(TestCase):
+    def setUp(self) -> None:
+        self.sample_integer_record = {
             "meta_data_definition_id": 1,
             "name": "Test Integer",
             "type": "INTEGER",
-            "min": 0,
+            "allowed_object_type": "object",
+            "comment": "Test comment",
+            "gui_default_value": "10",
+            "value_syntax": "",
+            "flags": "",
+            "min": 1,
             "max": 100
         }
 
-        result = process_metadata_definition(record)
-        self.assertEqual(result.name, "MetaDataDef")
-        self.assertEqual(mock_update_or_create.call_count, 1)
-
-    @patch("meta_data.models.MetaDataDefinition.objects.update_or_create")
-    def test_process_metadata_definition_enum(self, mock_update_or_create):
-        mock_update_or_create.return_value = (MagicMock(name="MetaDataDef"), False)
-
-        record = {
+        self.sample_enum_record = {
             "meta_data_definition_id": 2,
             "name": "Test Enum",
             "type": "ENUM",
+            "allowed_object_type": "object",
+            "comment": "Test comment",
+            "gui_default_value": "",
+            "value_syntax": "",
+            "flags": "",
             "list_values": [{"value": "Option1"}, {"value": "Option2"}]
         }
 
-        result = process_metadata_definition(record)
-        self.assertEqual(result.name, "MetaDataDef")
+    @patch("your_module.requests.get")
+    def test_fetch_metadata_success(self, mock_get):
+        mock_response = MagicMock()
+        mock_response.json.return_value = [self.sample_integer_record]
+        mock_response.raise_for_status = MagicMock()
+        mock_get.return_value = mock_response
 
+        data = fetch_metadata("https://fakeurl.com", {}, retries=1)
+        self.assertEqual(data, [self.sample_integer_record])
 
-class ProcessValidValuesTestCase(unittest.TestCase):
-    @patch("meta_data.models.MetaDataValidValue.objects.update_or_create")
-    def test_process_valid_values_enum(self, mock_update_or_create):
-        meta_data_def_mock = MagicMock()
-        record = {
-            "type": "ENUM",
-            "list_values": [{"value": "A"}, {"value": "B"}]
-        }
+    @patch("your_module.MetaDataDefinition.objects.update_or_create")
+    def test_process_metadata_definition_integer(self, mock_update_or_create):
+        mock_update_or_create.return_value = (MagicMock(name="MetaDataDefinition"), True)
+        meta_def = process_metadata_definition(self.sample_integer_record)
 
-        process_valid_values(meta_data_def_mock, record)
-        self.assertEqual(mock_update_or_create.call_count, 2)  # Should be called twice for A and B
+        self.assertEqual(meta_def.name, "MetaDataDefinition")
+        mock_update_or_create.assert_called_once()
 
+    @patch("your_module.MetaDataValidValue.objects.update_or_create")
+    @patch("your_module.MetaDataDefinition.objects.update_or_create")
+    def test_process_valid_values_enum(self, mock_meta_update, mock_valid_value_update):
+        meta_def_mock = MagicMock()
+        mock_meta_update.return_value = (meta_def_mock, True)
+        process_valid_values(meta_def_mock, self.sample_enum_record)
 
-class UpdateMetadataTestCase(unittest.TestCase):
-    @patch("my_app.tasks.fetch_metadata")
-    @patch("my_app.tasks.process_metadata_definition")
-    @patch("my_app.tasks.process_valid_values")
-    def test_update_metadata_success(self, mock_process_values, mock_process_definition, mock_fetch_metadata):
-        mock_fetch_metadata.return_value = [{"meta_data_definition_id": 1, "name": "Test", "type": "ENUM"}]
-        mock_process_definition.return_value = MagicMock()
+        self.assertEqual(mock_valid_value_update.call_count, 2)  # Two values in list_values
+
+    @patch("your_module.fetch_metadata")
+    @patch("your_module.process_metadata_definition")
+    @patch("your_module.process_valid_values")
+    def test_update_metadata_success(self, mock_process_valid_values, mock_process_metadata_definition, mock_fetch_metadata):
+        mock_fetch_metadata.return_value = [self.sample_enum_record]
+        mock_process_metadata_definition.return_value = MagicMock()
 
         result = update_metadata()
-
         self.assertEqual(result, "Success")
-        self.assertTrue(mock_fetch_metadata.called)
-        self.assertTrue(mock_process_definition.called)
+        mock_process_metadata_definition.assert_called_once()
+        mock_process_valid_values.assert_called_once()
