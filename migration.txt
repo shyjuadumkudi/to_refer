@@ -1,0 +1,83 @@
+ 1. Identify which migration created the wrong table
+
+Suppose the bad migration was 0015_create_wrong_table (example).
+Find the migration file under:
+myapp/migrations/0015_create_wrong_table.py
+
+If there are dependent migrations (0016, 0017, etc.), you may need to fix them too.
+
+2. Delete the old migration file(s)
+
+Delete the wrong migrations.
+
+Example:
+rm myapp/migrations/0015_create_wrong_table.py
+rm myapp/migrations/0016_insert_data.py  # if you have separate data insert
+# delete further dependent migrations too if needed (0017, 0018...)
+
+
+3. Drop the wrong table from database
+
+Since you don't care about the existing data, connect to your Yugabyte database and drop the wrong table manually.
+
+Example (psql or ycql):
+DROP TABLE myapp_mymodel;
+
+4. Update models.py
+
+In myapp/models.py, fix your model so that the correct primary key is defined.
+
+Example corrected model:
+class MyModel(models.Model):
+    new_primary_key_col = models.CharField(primary_key=True, max_length=100)
+    other_column1 = models.TextField()
+    other_column2 = models.IntegerField()
+    # remove old 'id' field if it was wrongly there
+
+
+5. Fake migrate back if needed
+
+Since Django's migration table still thinks you're at 0020, you should reset it.
+
+Rollback to a safe migration before the wrong one (say 0014).
+
+Run:
+python manage.py migrate myapp 0014
+
+6. Make fresh migration
+
+Now recreate the migration cleanly:
+python manage.py makemigrations myapp
+
+This will create something like:
+myapp/migrations/0015_correct_create_table.py
+(Notice 0015 again — since you rolled back.)
+
+If you have initial data to insert (seed data), create it via RunPython in a separate migration if needed.
+
+7. Migrate cleanly
+
+Finally apply migrations forward:
+python manage.py migrate myapp
+
+## Full Command Set
+
+# Delete old wrong migrations
+rm myapp/migrations/0015_create_wrong_table.py
+rm myapp/migrations/0016_insert_data.py
+
+# Drop table manually
+# (login to DB first)
+DROP TABLE myapp_mymodel;
+
+# Fake migrate back to before broken migrations
+python manage.py migrate myapp 0014 --fake
+
+# Fix models.py with correct primary key
+
+# Make new migrations
+python manage.py makemigrations myapp
+
+# Apply fresh migrations
+python manage.py migrate myapp
+
