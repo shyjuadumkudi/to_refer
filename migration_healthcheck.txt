@@ -1,0 +1,41 @@
+When you include 'health_check.contrib.migrations' in your Django application settings (specifically, in the INSTALLED_APPS list), it enables a Django Health Check plugin that checks whether your database has unapplied migrations.
+
+What it does:
+The plugin runs a health check to ensure that all migrations for your Django apps have been applied. If there are unapplied migrations, it will report a failure.
+
+What SQL Queries Are Run?
+Internally, the plugin uses Django's migration framework. Specifically, it calls:
+
+from django.db.migrations.executor import MigrationExecutor
+executor = MigrationExecutor(connection)
+plan = executor.migration_plan(executor.loader.graph.leaf_nodes())
+
+
+This results in the following SQL queries being executed:
+
+Fetch applied migrations:
+
+SELECT app, name FROM django_migrations;
+
+
+This checks which migrations have already been applied.
+
+Load Django's internal migration graph:
+This doesn't directly issue SQL but reads from the migration files of each app.
+
+No direct ALTER, INSERT, or DELETE SQL is issued.
+It's purely read-only, unless you're running migrate manually. The health check just evaluates whether any migrations are pending by comparing the list of migration files against what’s present in the django_migrations table.
+
+
+Summary:
+When 'health_check.contrib.migrations' is enabled:
+
+It runs only SELECT queries.
+
+Specifically:
+
+
+SELECT app, name FROM django_migrations;
+It does not alter any data or schema.
+
+If any migration files are found that aren't applied, the health check will report that the status is unhealthy.
