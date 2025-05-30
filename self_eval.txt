@@ -1,1 +1,43 @@
+###Summary
+In the first half of the year, I focused on improving engineering efficiency, driving key project deliverables, and collaborating across teams to support successful outcomes. I adopted tools like GitHub Copilot to boost productivity, maintained strong code quality metrics, and played a central role in delivering database integration, automation, and configuration tasks across multiple environments. I actively supported cross-functional coordination with vendors, DBAs, and internal teams to troubleshoot and resolve issues. Additionally, I fulfilled organizational expectations by completing all mandatory trainings and participating in team representation initiatives.
 
+
+###Engineering Persona Goals
+Adopted GitHub Copilot for code development, improving development speed and efficiency.
+
+Maintained unit test coverage consistently above 70%, ensuring robust and testable code.
+
+Ensured no unauthorized changes were made in the codebase.
+
+Maintained high operational stability with no high-impact incidents.
+
+No vulnerable code was introduced, aligning with secure coding practices and standards.
+
+
+###Project Feature Delivery
+Implemented and integrated Yugabyte DB as the database backend for the project.
+
+Collaborated with the EDM DBA team to configure the database for UAT and Production environments.
+
+Created and configured service accounts for SIT, UAT, and Prod environments.
+
+Engaged with Yugabyte vendors to troubleshoot and analyze current latency issues in UAT.
+
+Developed and implemented a global output standard for the A record POST method.
+
+Completed development of a script to automate EA metadata fetching from Infoblox to HostConnect.
+
+Updated EA input validation to use the HostConnect database.
+
+Worked closely with the DDI team to resolve SIT environment service account issues.
+
+Created and installed certificates for the SIT and UAT environments.
+
+Took ownership of creating DDL service accounts for Production to prevent potential deployment issues.
+
+Coordinated with the DBA team to retrieve topology keys for UAT DB configuration.
+
+###Living Our Company Expectations
+Completed all mandatory trainings on time, reducing compliance and operational risk.
+
+Represented the team during the Developer Day event, contributing to team visibility and engagement.
