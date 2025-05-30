@@ -1,0 +1,9 @@
+Risk Overlay Expectations
+All mandatory trainings were completed on time, ensuring compliance with organizational policies and minimizing risks related to governance, security, and process adherence.
+
+During development, a technical risk was identified involving the use of composite primary keys in Django. The current Django framework version did not support this requirement, which posed a risk to the timely implementation of features dependent on composite keys.
+
+To address this, the issue was thoroughly tested and validated. After confirming the limitation, the decision was made to upgrade to a higher Django version that supports composite primary keys.
+
+This proactive step helped mitigate potential development delays and ensured architectural alignment with the project requirements.
+
