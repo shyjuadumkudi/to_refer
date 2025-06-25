@@ -107,3 +107,5 @@ Check disk I/O, CPU, QPS, slow queries
 
 Use yb-ctl or yb_stats.py for CLI monitoring
 
+# Command:
+locust -f db_locust_test.py --headless -u 100 -r 10 --run-time 2m --csv=db_test_results
