@@ -26,4 +26,16 @@ class DBTaskSet(TaskSet):
     def write_my_model(self):
         MyModel.objects.create(
             request_id=faker.uuid4(),
-            date_done=timezone.now()_
+            date_done=timezone.now()
+        )
+
+    @task(1)
+    def update_my_model(self):
+        obj = MyModel.objects.order_by('?').first()
+        if obj:
+            obj.date_done = timezone.now()
+            obj.save()
+
+class DBUser(User):
+    tasks = [DBTaskSet]
+    wait_time = between(1, 3)
