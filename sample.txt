@@ -1,0 +1,15 @@
+The "Father of Artificial Intelligence" is widely considered to be John McCarthy.
+
+Who was John McCarthy?
+An American computer scientist and cognitive scientist.
+
+Coined the term "Artificial Intelligence" in 1956.
+
+Organized the Dartmouth Conference in 1956, which is considered the birth of AI as a field.
+
+His Contributions:
+Developed the LISP programming language, which became the standard AI language for decades.
+
+Pioneered work in time-sharing systems and early AI planning.
+
+So, while many scientists contributed to the development of AI, John McCarthy is most commonly credited as its father.
